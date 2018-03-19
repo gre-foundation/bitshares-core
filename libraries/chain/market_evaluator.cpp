@@ -59,6 +59,14 @@ void_result limit_order_create_evaluator::do_evaluate(const limit_order_create_o
    FC_ASSERT( d.get_balance( *_seller, *_sell_asset ) >= op.amount_to_sell, "insufficient balance",
               ("balance",d.get_balance(*_seller,*_sell_asset))("amount_to_sell",op.amount_to_sell) );
 
+   if( _sell_asset->options.extensions.size() )
+   {
+      for (const auto& elem: _sell_asset->options.extensions) {
+         const price p = elem.get<price>();
+          //TODO:check price
+      }
+
+   }
    return void_result();
 } FC_CAPTURE_AND_RETHROW( (op) ) }
 
