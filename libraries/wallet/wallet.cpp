@@ -1347,7 +1347,7 @@ public:
       if (!asset_to_settle)
         FC_THROW("No asset with that symbol exists!");
 
-      asset_settle_operation settle_op;wiwi
+      asset_settle_operation settle_op;
       settle_op.account = get_account_id(account_to_settle);
       settle_op.amount = asset_to_settle->amount_from_string(amount_to_settle);
 
