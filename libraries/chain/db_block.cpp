@@ -552,6 +552,7 @@ processed_transaction database::apply_transaction(const signed_transaction& trx,
    detail::with_skip_flags( *this, skip, [&]()
    {
       result = _apply_transaction(trx);
+       ilog("apply_transaction");
    });
    return result;
 }
