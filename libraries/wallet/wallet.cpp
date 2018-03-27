@@ -1124,6 +1124,29 @@ public:
    } FC_CAPTURE_AND_RETHROW( (account_name)(registrar_account)(referrer_account) ) }
 
 
+    signed_transaction create_uia(string issuer,
+                                    string symbol,
+                                    uint8_t precision,
+                                    asset_options common,
+                                    bool broadcast = false)
+    { try {
+            account_object issuer_account = get_account( issuer );
+            FC_ASSERT(!find_asset(symbol).valid(), "Asset with that symbol already exists!");
+
+            asset_create_operation create_op;
+            create_op.issuer = issuer_account.id;
+            create_op.symbol = symbol;
+            create_op.precision = precision;
+            create_op.common_options = common;
+
+            signed_transaction tx;
+            tx.operations.push_back( create_op );
+            set_operation_fees( tx, _remote_db->get_global_properties().parameters.current_fees);
+            tx.validate();
+
+            return sign_transaction( tx, broadcast );
+        } FC_CAPTURE_AND_RETHROW( (issuer)(symbol)(precision)(common)(broadcast) ) }
+
     signed_transaction create_asset(string issuer,
                                     string symbol,
                                     uint8_t precision,
@@ -3309,6 +3332,15 @@ signed_transaction wallet_api::transfer(string from, string to, string amount,
 {
    return my->transfer(from, to, amount, asset_symbol, memo, broadcast);
 }
+
+signed_transaction wallet_api::create_uia(string issuer,
+                                            string symbol,
+                                            uint8_t precision,
+                                            asset_options common,
+                                            bool broadcast) {
+   return my->create_uia(issuer, symbol, precision, common, broadcast);
+}
+
 signed_transaction wallet_api::create_asset(string issuer,
                                             string symbol,
                                             uint8_t precision,
@@ -3318,14 +3350,14 @@ signed_transaction wallet_api::create_asset(string issuer,
    return my->create_asset(issuer, symbol, precision, common, bitasset_opts, broadcast);
 }
 
-        signed_transaction wallet_api::create_prediction_market(string issuer,
-                                                    string symbol,
-                                                    uint8_t precision,
-                                                    asset_options common,
-                                                    fc::optional<bitasset_options> bitasset_opts,
-                                                    bool broadcast) {
-           return my->create_prediction_market(issuer, symbol, precision, common, bitasset_opts, broadcast);
-        }
+signed_transaction wallet_api::create_prediction_market(string issuer,
+                                            string symbol,
+                                            uint8_t precision,
+                                            asset_options common,
+                                            fc::optional<bitasset_options> bitasset_opts,
+                                            bool broadcast) {
+   return my->create_prediction_market(issuer, symbol, precision, common, bitasset_opts, broadcast);
+}
 signed_transaction wallet_api::update_asset(string symbol,
                                             optional<string> new_issuer,
                                             asset_options new_options,

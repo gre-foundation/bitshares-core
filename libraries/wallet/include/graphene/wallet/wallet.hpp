@@ -974,6 +974,11 @@ class wallet_api
        */
       signed_transaction cancel_order(object_id_type order_id, bool broadcast = false);
 
+    signed_transaction create_uia(string issuer,
+                                    string symbol,
+                                    uint8_t precision,
+                                    asset_options common,
+                                    bool broadcast = false);
       /** Creates a new user-issued or market-issued asset.
        *
        * Many options can be changed later using \c update_asset()
@@ -1683,6 +1688,7 @@ FC_API( graphene::wallet::wallet_api,
         (transfer)
         (transfer2)
         (get_transaction_id)
+        (create_uia)
         (create_asset)
         (create_prediction_market)
         (update_asset)
