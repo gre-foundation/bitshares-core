@@ -2,3 +2,7 @@
     path = libraries/fc
     url = https://github.com/gre-foundation/fc.git
     ignore = dirty
+[submodule "docs"]
+    path = docs
+    url = https://github.com/bitshares/bitshares-core.wiki.git
+    ignore = dirty
