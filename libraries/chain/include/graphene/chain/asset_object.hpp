@@ -186,6 +186,8 @@ namespace graphene { namespace chain {
 
          /// True if this asset implements a @ref prediction_market
          bool is_prediction_market = false;
+         /// True if this asset implements a insurance policy
+         bool is_insurance_policy = false;
 
          /// This is the volume of this asset which has been force-settled this maintanence interval
          share_type force_settled_volume;
@@ -260,6 +262,7 @@ FC_REFLECT_DERIVED( graphene::chain::asset_bitasset_data_object, (graphene::db::
                     (options)
                     (force_settled_volume)
                     (is_prediction_market)
+                    (is_insurance_policy)
                     (settlement_price)
                     (settlement_fund)
                   )

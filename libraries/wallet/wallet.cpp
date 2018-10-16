@@ -1198,6 +1198,33 @@ public:
       return sign_transaction( tx, broadcast );
    } FC_CAPTURE_AND_RETHROW( (issuer)(symbol)(precision)(common)(bitasset_opts)(broadcast) ) }
 
+   signed_transaction create_insurance_policy(string issuer,
+                                   string symbol,
+                                   uint8_t precision,
+                                   asset_options common,
+                                   fc::optional<bitasset_options> bitasset_opts,
+                                   bool broadcast = false)
+   { try {
+      account_object issuer_account = get_account( issuer );
+      FC_ASSERT(!find_asset(symbol).valid(), "Asset with that symbol already exists!");
+
+      asset_create_operation create_op;
+      create_op.issuer = issuer_account.id;
+      create_op.symbol = symbol;
+      create_op.precision = precision;
+      create_op.common_options = common;
+      create_op.bitasset_opts = bitasset_opts;
+      create_op.is_prediction_market = true;
+      create_op.is_insurance_policy = true;
+
+      signed_transaction tx;
+      tx.operations.push_back( create_op );
+      set_operation_fees( tx, _remote_db->get_global_properties().parameters.current_fees);
+      tx.validate();
+
+      return sign_transaction( tx, broadcast );
+   } FC_CAPTURE_AND_RETHROW( (issuer)(symbol)(precision)(common)(bitasset_opts)(broadcast) ) }
+
    signed_transaction update_asset(string symbol,
                                    optional<string> new_issuer,
                                    asset_options new_options,

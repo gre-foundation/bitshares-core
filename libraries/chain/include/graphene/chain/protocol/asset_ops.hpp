@@ -144,6 +144,8 @@ namespace graphene { namespace chain {
       optional<bitasset_options> bitasset_opts;
       /// For BitAssets, set this to true if the asset implements a @ref prediction_market; false otherwise
       bool is_prediction_market = false;
+      /// For BitAssets, set this to true if the asset implements a insurance_policy; false otherwise
+      bool is_insurance_policy = false;
       extensions_type extensions;
 
       account_id_type fee_payer()const { return issuer; }
@@ -494,6 +496,7 @@ FC_REFLECT( graphene::chain::asset_create_operation,
             (common_options)
             (bitasset_opts)
             (is_prediction_market)
+            (is_insurance_policy)
             (extensions)
           )
 FC_REFLECT( graphene::chain::asset_update_operation,
