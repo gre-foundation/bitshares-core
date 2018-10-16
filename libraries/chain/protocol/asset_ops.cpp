@@ -107,7 +107,8 @@ void  asset_create_operation::validate()const
    }
    if(is_insurance_policy)
    {
-       FC_ASSERT( bitasset_opts->extensions.value.policy_price->is_null(),"Cannot create an insurance policy without policy price");
+       FC_ASSERT( bitasset_opts->extensions.value.policy_price.valid(),"Cannot create an insurance policy without policy price");
+       FC_ASSERT( !bitasset_opts->extensions.value.policy_price->is_null(),"Cannot create an insurance policy without policy price");
    }
    if( bitasset_opts ) bitasset_opts->validate();
 
