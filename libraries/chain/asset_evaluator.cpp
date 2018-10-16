@@ -146,6 +146,11 @@ object_id_type asset_create_evaluator::do_apply( const asset_create_operation& o
       bit_asset_id = db().create<asset_bitasset_data_object>( [&]( asset_bitasset_data_object& a ) {
             a.options = *op.bitasset_opts;
             a.is_prediction_market = op.is_prediction_market;
+            a.is_insurance_policy = op.is_insurance_policy;
+            if(op.is_insurance_policy)
+            {
+               a.policy_price = op.bitasset_opts->extensions.value.policy_price;
+            }
          }).id;
 
    auto next_asset_id = db().get_index_type<asset_index>().get_next_id();

@@ -189,6 +189,8 @@ namespace graphene { namespace chain {
          /// True if this asset implements a insurance policy
          bool is_insurance_policy = false;
 
+         optional<price> policy_price;
+
          /// This is the volume of this asset which has been force-settled this maintanence interval
          share_type force_settled_volume;
          /// Calculate the maximum force settlement volume per maintenance interval, given the current share supply
@@ -196,6 +198,8 @@ namespace graphene { namespace chain {
 
          /** return true if there has been a black swan, false otherwise */
          bool has_settlement()const { return !settlement_price.is_null(); }
+         /** return true if there has been policy price, false otherwise */
+         bool has_policy_price()const { return !policy_price->is_null(); }
 
          /**
           *  In the event of a black swan, the swan price is saved in the settlement price, and all margin positions
@@ -263,6 +267,7 @@ FC_REFLECT_DERIVED( graphene::chain::asset_bitasset_data_object, (graphene::db::
                     (force_settled_volume)
                     (is_prediction_market)
                     (is_insurance_policy)
+                    (policy_price)
                     (settlement_price)
                     (settlement_fund)
                   )

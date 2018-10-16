@@ -105,6 +105,10 @@ void  asset_create_operation::validate()const
       FC_ASSERT( bitasset_opts.valid(), "Cannot have a User-Issued Asset implement a prediction market." );
       FC_ASSERT( common_options.issuer_permissions & global_settle );
    }
+   if(is_insurance_policy)
+   {
+       FC_ASSERT( bitasset_opts->extensions.value.policy_price->is_null(),"Cannot create an insurance policy without policy price");
+   }
    if( bitasset_opts ) bitasset_opts->validate();
 
    asset dummy = asset(1) * common_options.core_exchange_rate;

@@ -24,6 +24,7 @@
 #pragma once
 #include <graphene/chain/protocol/base.hpp>
 #include <graphene/chain/protocol/memo.hpp>
+#include <graphene/chain/protocol/ext.hpp>
 
 namespace graphene { namespace chain { 
 
@@ -88,6 +89,10 @@ namespace graphene { namespace chain {
     * @note Changes to this struct will break protocol compatibility
     */
    struct bitasset_options {
+       struct ext
+       {
+           optional< price >            policy_price;
+       };
       /// Time before a price feed expires
       uint32_t feed_lifetime_sec = GRAPHENE_DEFAULT_PRICE_FEED_LIFETIME;
       /// Minimum number of unexpired feeds required to extract a median feed from
@@ -105,7 +110,8 @@ namespace graphene { namespace chain {
       /// This speicifies which asset type is used to collateralize short sales
       /// This field may only be updated if the current supply of the asset is zero.
       asset_id_type short_backing_asset;
-      extensions_type extensions;
+
+      extension< ext > extensions;
 
       /// Perform internal consistency checks.
       /// @throws fc::exception if any check fails
@@ -464,6 +470,7 @@ FC_REFLECT( graphene::chain::asset_options,
             (description)
             (extensions)
           )
+FC_REFLECT( graphene::chain::bitasset_options::ext, (policy_price) )
 FC_REFLECT( graphene::chain::bitasset_options,
             (feed_lifetime_sec)
             (minimum_feeds)
@@ -473,6 +480,7 @@ FC_REFLECT( graphene::chain::bitasset_options,
             (short_backing_asset)
             (extensions)
           )
+
 
 
 FC_REFLECT( graphene::chain::asset_create_operation::fee_parameters_type, (symbol3)(symbol4)(long_symbol)(price_per_kbyte) )
