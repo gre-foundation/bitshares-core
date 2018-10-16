@@ -144,7 +144,7 @@ void_result call_order_update_evaluator::do_evaluate(const call_order_update_ope
 
    if( _bitasset_data->is_insurance_policy )
    {
-      //TODO:use asset value to validate
+       ///use asset value to validate
        FC_ASSERT( _bitasset_data->has_policy_price() );
        FC_ASSERT( o.delta_collateral.asset_id == _bitasset_data->policy_price->base.asset_id );
        FC_ASSERT( o.delta_debt.asset_id == _bitasset_data->policy_price->quote.asset_id );
