@@ -146,8 +146,8 @@ void_result call_order_update_evaluator::do_evaluate(const call_order_update_ope
    {
        ///use asset value to validate
        FC_ASSERT( _bitasset_data->has_policy_price() );
-       FC_ASSERT( o.delta_collateral.asset_id == _bitasset_data->policy_price->base.asset_id );
-       FC_ASSERT( o.delta_debt.asset_id == _bitasset_data->policy_price->quote.asset_id );
+//       FC_ASSERT( o.delta_collateral.asset_id == _bitasset_data->policy_price->base.asset_id );
+//       FC_ASSERT( o.delta_debt.asset_id == _bitasset_data->policy_price->quote.asset_id );
        FC_ASSERT( o.delta_collateral.amount * _bitasset_data->policy_price->quote.amount  == o.delta_debt.amount * _bitasset_data->policy_price->base.amount);
 
    }

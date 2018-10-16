@@ -1198,12 +1198,12 @@ public:
       return sign_transaction( tx, broadcast );
    } FC_CAPTURE_AND_RETHROW( (issuer)(symbol)(precision)(common)(bitasset_opts)(broadcast) ) }
 
-   signed_transaction create_insurance_policy(string issuer,
-                                   string symbol,
-                                   uint8_t precision,
-                                   asset_options common,
-                                   fc::optional<bitasset_options> bitasset_opts,
-                                   bool broadcast = false)
+    signed_transaction create_insurance_policy(string issuer,
+                                               string symbol,
+                                               uint8_t precision,
+                                               asset_options common,
+                                               fc::optional<bitasset_options> bitasset_opts,
+                                               bool broadcast = false)
    { try {
       account_object issuer_account = get_account( issuer );
       FC_ASSERT(!find_asset(symbol).valid(), "Asset with that symbol already exists!");
@@ -3385,6 +3385,15 @@ signed_transaction wallet_api::create_prediction_market(string issuer,
                                             bool broadcast) {
    return my->create_prediction_market(issuer, symbol, precision, common, bitasset_opts, broadcast);
 }
+
+        signed_transaction wallet_api::create_insurance_policy(string issuer,
+                                                                string symbol,
+                                                                uint8_t precision,
+                                                                asset_options common,
+                                                                fc::optional<bitasset_options> bitasset_opts,
+                                                                bool broadcast) {
+            return my->create_insurance_policy(issuer, symbol, precision, common, bitasset_opts, broadcast);
+        }
 signed_transaction wallet_api::update_asset(string symbol,
                                             optional<string> new_issuer,
                                             asset_options new_options,
