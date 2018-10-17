@@ -111,9 +111,11 @@ struct sign_state
        */
       bool signed_by( const public_key_type& k )
       {
+          wdump((provided_signatures));
          auto itr = provided_signatures.find(k);
          if( itr == provided_signatures.end() )
          {
+             wdump((available_keys));
             auto pk = available_keys.find(k);
             if( pk  != available_keys.end() )
                return provided_signatures[k] = true;
@@ -174,14 +176,14 @@ struct sign_state
          const authority& auth = *au;
 
          uint32_t total_weight = 0;
-         for( const auto& k : auth.key_auths )
-            if( signed_by( k.first ) )
-            {
+         for( const auto& k : auth.key_auths ) {
+            wdump((k));
+            if (signed_by(k.first)) {
                total_weight += k.second;
-               if( total_weight >= auth.weight_threshold )
+               if (total_weight >= auth.weight_threshold)
                   return true;
             }
-
+         }
          for( const auto& k : auth.address_auths )
             if( signed_by( k.first ) )
             {
@@ -281,14 +283,14 @@ void verify_authority( const vector<operation>& ops, const flat_set<public_key_t
    {
       GRAPHENE_ASSERT( s.check_authority(id) || 
                        s.check_authority(get_owner(id)), 
-                       tx_missing_active_auth, "Missing Active Authority ${id}", ("id",id)("auth",*get_active(id))("owner",*get_owner(id)) );
+                       tx_missing_active_auth, "Missing Active Authority ${id} ${auth} ${owner}", ("id",id)("auth",*get_active(id))("owner",*get_owner(id)) );
    }
 
    for( auto id : required_owner )
    {
       GRAPHENE_ASSERT( owner_approvals.find(id) != owner_approvals.end() ||
                        s.check_authority(get_owner(id)), 
-                       tx_missing_owner_auth, "Missing Owner Authority ${id}", ("id",id)("auth",*get_owner(id)) );
+                       tx_missing_owner_auth, "Missing Owner Authority ${id} ${auth}", ("id",id)("auth",*get_owner(id)) );
    }
 
    GRAPHENE_ASSERT(
