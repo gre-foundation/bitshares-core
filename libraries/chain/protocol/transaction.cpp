@@ -178,7 +178,9 @@ struct sign_state
          uint32_t total_weight = 0;
          for( const auto& k : auth.key_auths ) {
             wdump((k));
-            if (signed_by(k.first)) {
+            bool res = signed_by(k.first);
+            wdump((res));
+            if (res) {
                total_weight += k.second;
                if (total_weight >= auth.weight_threshold)
                   return true;
